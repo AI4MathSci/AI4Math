@@ -1,6 +1,6 @@
 # This code accepts a model name, such as "gpt-4", model="gpt-4o-mini", etc., a math problem and a parameter max_retreies. 
-# It calls an the LLM API with the model name to request it to generat solution steps, and generate the corresponding 
-# Python code for the solutions. It then calls the corresponding Python functions to solve the problem. 
+# It calls an the LLM API with the model name to request it to generate solution steps, and generate the corresponding 
+# Python code for the solution. It then calls the corresponding Python functions to solve the problem. 
 # If there is error in executing the Python code, it will re-prompt the LLM to re-generate the code with a 
 # fix to the error until a successful execution of the code or max retires has been exhausted
 
