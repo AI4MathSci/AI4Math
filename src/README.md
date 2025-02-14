@@ -11,10 +11,12 @@ fix to the error until a successful execution of the code or max retires has bee
 
 # Requirements
 Before running solver.py, the following are required:
+```bash
 - install openai
 - set the env var "OPENAI_API_KEY" to the openAI API key you have created
-
+```
 # Example:
 Run the following example to solve a math problem:
-
+```bash
 python solver.py --model="gpt-4o-mini" --max_retries=1 --problem="Find the equation of the tangent line to the graph of y = x^3 at x = 1/2"
+```
