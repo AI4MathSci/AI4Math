@@ -3,6 +3,7 @@ slover.py accepts the following args:
 - model name, such as "gpt-4", model="gpt-4o-mini", etc.,
 - A math problem
 - A parameter max_retreies 
+
 It calls an the LLM API with the model name to request it to generate solution steps, and generate the corresponding 
 Python code for the solution. It then calls the corresponding Python functions to solve the problem. 
 If there is error in executing the Python code, it will re-prompt the LLM to re-generate the code with a 
