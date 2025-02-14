@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math Problem Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-size: 16px;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Problem Solver</h1>
+        <form id="mathForm">
+            <textarea 
+                id="problemText" 
+                rows="6" 
+                placeholder="Enter your math problem here..."
+            ></textarea>
+            <button type="submit">Submit Problem</button>
+        </form>
+    </div>
+
+    <script>
+        let ws = new WebSocket(`ws://${window.location.host}/ws`);
+        
+        ws.onopen = function() {
+            console.log('Connected to server');
+        };
+
+        ws.onmessage = function(event) {
+            const response = JSON.parse(event.data);
+            alert(response.message);
+        };
+
+        ws.onerror = function(error) {
+            console.error('WebSocket error:', error);
+            alert('Error connecting to server');
+        };
+
+        document.getElementById('mathForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const problemText = document.getElementById('problemText').value;
+            
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(problemText);
+            } else {
+                alert('Not connected to server');
+            }
+        });
+    </script>
+</body>
+</html> 
