@@ -23,7 +23,7 @@ python solver.py --model="gpt-4o-mini" --max_retries=1 --problem="Find the equat
 You should expect an output similar to the following:
 
 Generated Code:
-========================================
+
 ```Python
 # To find the equation of the tangent line to the graph of y = x^3 at x = 1/2, we will first calculate the derivative to find the slope of the tangent line at that point.
 
@@ -53,7 +53,6 @@ print(f"Slope of the tangent line at x = 1/2: {slope_at_1_2}")
 print(f"Equation of the tangent line: {tangent_line_eq}")
 ```
 
-========================================
 
 Execution Output:
  Slope of the tangent line at x = 1/2: 0.750000000000000
