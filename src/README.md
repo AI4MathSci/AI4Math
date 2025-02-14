@@ -16,4 +16,5 @@ Before running solver.py, the following are required:
 
 # Example:
 Run the following example to solve a math problem:
+
 python solver.py --model="gpt-4o-mini" --max_retries=1 --problem="Find the equation of the tangent line to the graph of y = x^3 at x = 1/2"
