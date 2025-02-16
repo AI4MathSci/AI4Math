@@ -29,6 +29,20 @@
             margin-bottom: 1.5rem;
         }
 
+        #status {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        #receivedText {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            display: none;
+        }
+
         textarea {
             width: 100%;
             padding: 12px;
@@ -60,39 +74,56 @@
 <body>
     <div class="container">
         <h1>Math Problem Solver</h1>
-        <form id="mathForm">
+        <div id="status">Connecting...</div>
+        <form id="inputForm">
             <textarea 
-                id="problemText" 
+                id="inputText" 
                 rows="6" 
                 placeholder="Enter your math problem here..."
             ></textarea>
             <button type="submit">Submit Problem</button>
         </form>
+        <div id="receivedText"></div>
     </div>
 
     <script>
-        let ws = new WebSocket(`ws://${window.location.host}/ws`);
+        const status = document.getElementById('status');
+        const receivedText = document.getElementById('receivedText');
         
-        ws.onopen = function() {
-            console.log('Connected to server');
+        // Dynamically construct WebSocket URL
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws`;
+        
+        let ws = new WebSocket(wsUrl);
+        
+        ws.onopen = () => {
+            status.textContent = 'Connected';
+            status.style.color = 'green';
         };
 
-        ws.onmessage = function(event) {
+        ws.onclose = () => {
+            status.textContent = 'Disconnected';
+            status.style.color = 'red';
+        };
+
+        ws.onerror = () => {
+            status.textContent = 'Connection Error';
+            status.style.color = 'red';
+        };
+
+        ws.onmessage = (event) => {
             const response = JSON.parse(event.data);
-            alert(response.message);
+            receivedText.style.display = 'block';
+            receivedText.textContent = `Server received: ${response.received_text}`;
         };
 
-        ws.onerror = function(error) {
-            console.error('WebSocket error:', error);
-            alert('Error connecting to server');
-        };
-
-        document.getElementById('mathForm').addEventListener('submit', async (e) => {
+        document.getElementById('inputForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const problemText = document.getElementById('problemText').value;
+            const text = document.getElementById('inputText').value;
             
             if (ws.readyState === WebSocket.OPEN) {
-                ws.send(problemText);
+                ws.send(text);
+                document.getElementById('inputText').value = '';
             } else {
                 alert('Not connected to server');
             }
